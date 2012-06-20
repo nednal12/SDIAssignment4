@@ -138,6 +138,7 @@ var numberThings = function () {
 	//	  capitalize the current letter.
 	// 6. We are still in the loop here, so let's go ahead and begin to reconstruct our title case sentence using the 
 	//	  concat method.
+	// 7. Close out the titleCase function.
 	// ------------------------------------------------------------------------------------------------------------------
 	var titleCase = function (someString) {
 		someString = someString.trim();									// 1
@@ -153,12 +154,39 @@ var numberThings = function () {
 			someString = someString.concat(someStringArray[i]);			// 6
 		};
 		return someString;
-	};
+		
+	}; 																	// 7
+	
+	// ------------------------------------------------------------------------------------------------------------------
+	// Begin Replace Separator in String Section
+	// 1. Remove leading and trailing blanks.
+	// 2. Turn the string into an array of individual letters, spaces, punctuation, etc..
+	// 3  Set the incoming arguemnt to an empty string so we can use it again to reconstruct the resulting string.
+	// 4. Iterate thru the loop looking for a match between the current array index value and the old separator value.
+	// 	  If found, replace it with the new separator.
+	// 5. We are still in the loop here, so let's go ahead and begin to reconstruct our title case sentence using the 
+	//	  concat method.
+	// 6. Close out the titleCase function.
+	// ------------------------------------------------------------------------------------------------------------------
+	var replaceSeparator = function (someString, oldSeparator, newSeparator) {
+		someString = someString.trim();									// 1
+		var someStringArray = someString.split("");						// 2
+		someString = "";												// 3
+		for ( var i = 0, j = someStringArray.length; i < j; i++ ) {
+			if ( someStringArray[i] === oldSeparator ) {				// 4
+				someStringArray[i] = newSeparator;
+			};
+			someString = someString.concat(someStringArray[i]);			// 5
+		};
+		return someString;
+		
+	}; 																	// 7
 	
 	return {
 		"phoneNumber":phoneNumber,
 		"emailAddress":emailAddress,
-		"titleCase":titleCase
+		"titleCase":titleCase,
+		"replaceSeparator":replaceSeparator
 	};
 	
 	
@@ -166,11 +194,16 @@ var numberThings = function () {
 	
 }; // Close out numberThings
 
+var useReplaceSeparator = new numberThings();
+
+console.log(useReplaceSeparator.replaceSeparator(",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,", ",", "*"));
+
+/*
 var useTitleCase = new numberThings();
 
 console.log(useTitleCase.titleCase("i rEALLY eNJOYED dOING tHIS eXERCISE."));
 
-/*
+
 var evaluateEmailInput = new numberThings();
 
 console.log(evaluateEmailInput.emailAddress("brent.marohnic@aonhewitt.com("));
