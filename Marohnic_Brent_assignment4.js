@@ -1,6 +1,7 @@
 // My code library
 
 var numberThings = function () {
+	
 	var isItAPhoneNumber = function (phoneNum2) {
 		if ( (phoneNum2.charAt(3) === '-' && phoneNum2.charAt(7) === '-') ||
 			(phoneNum2.charAt(3) === '.' && phoneNum2.charAt(7) === '.') ) {
@@ -43,12 +44,12 @@ var numberThings = function () {
 		if ( firstDigit == 1 && phoneNum.length === 14 ) {
 		// If it is, remove the first and second chacters (ie: 1- ) before sending it on.
 			isItAPhoneNumber(phoneNum.substring(2));
-		} 	else if ( firstDigit != 1 && phoneNum.length === 12 ) {
+		} else if ( firstDigit != 1 && phoneNum.length === 12 ) {
 		// If the first character does not equal 1 and the length is equal to 12, send it on.
-				isItAPhoneNumber(phoneNum);
-			} 	else {
-					console.log(phoneNum + " is not a valid telephone number.");
-			};	// Close out the if block.
+			isItAPhoneNumber(phoneNum);
+		} else {
+			console.log(phoneNum + " is not a valid telephone number.");
+		};	// Close out the if block.
 			
 	};	// Close out phoneNumber
 	
@@ -123,22 +124,58 @@ var numberThings = function () {
 				};
 			};
 		};
+	
+	}; // Close out emailAddress
+	
+	// ------------------------------------------------------------------------------------------------------------------
+	// Begin Title-Case String Section
+	// 1. Remove leading and trailing blanks.
+	// 2. Set everything to lower case in case someone attempts to get tricky with how they input the argument.
+	// 3. Turn the string into an array of individual letters, spaces, punctuation, etc..
+	// 4. The first time thru the loop, set the first letter to upper case because it will always need to be upper case.
+	// 	  Also, set the incoming arguemnt to an empty string so we can use it again to reconstruct the title case string.
+	// 5. All subsequent interations just need to check to see if the previous array value was a space. If so,
+	//	  capitalize the current letter.
+	// 6. We are still in the loop here, so let's go ahead and begin to reconstruct our title case sentence using the 
+	//	  concat method.
+	// ------------------------------------------------------------------------------------------------------------------
+	var titleCase = function (someString) {
+		someString = someString.trim();									// 1
+		someString = someString.toLowerCase();							// 2
+		var someStringArray = someString.split("");						// 3
+		for ( var i = 0, j = someStringArray.length; i < j; i++ ) {
+			if ( i === 0  ) {											// 4
+				someStringArray[i] = someStringArray[i].toUpperCase();
+				someString = "";
+			} else if ( someStringArray[ i - 1 ] === " " ) {			// 5
+				someStringArray[i] = someStringArray[i].toUpperCase();
+			};
+			someString = someString.concat(someStringArray[i]);			// 6
+		};
+		return someString;
 	};
 	
 	return {
 		"phoneNumber":phoneNumber,
-		"emailAddress":emailAddress
+		"emailAddress":emailAddress,
+		"titleCase":titleCase
 	};
+	
 	
 	
 	
 }; // Close out numberThings
 
-var evaluateEmailInput = new numberThings();
+var useTitleCase = new numberThings();
 
-console.log(evaluateEmailInput.emailAddress("brent.marohnic@aonhewitt.com()))))))))"));
+console.log(useTitleCase.titleCase("i rEALLY eNJOYED dOING tHIS eXERCISE."));
 
 /*
+var evaluateEmailInput = new numberThings();
+
+console.log(evaluateEmailInput.emailAddress("brent.marohnic@aonhewitt.com("));
+
+
 var evaluatePhoneInput = new numberThings();
 
 evaluatePhoneInput.phoneNumber("1-407-614-5678");
