@@ -52,16 +52,101 @@ var numberThings = function () {
 			
 	};	// Close out phoneNumber
 	
-	return {
-		"phoneNumber":phoneNumber
+	
+	// ------------------------------------------------------------------------------------------------------------------
+	// Begin Email Validation Section
+	// ------------------------------------------------------------------------------------------------------------------
+	
+	var emailAddress = function (emailAddr) {
+		
+		// Begin by checking if the input is a number. If it is, use return to prevent any further execuction.
+		// This prevents inputs like boolean values, nulls, spaces, etc ... from being run thru the remaining code.
+		if ( !isNaN(emailAddr) ) {
+			return emailAddr + " is not a valid email address.";
+			return;
+		};
+		// Remove leading and trailing blanks with the 'trim' string object.
+		emailAddr = emailAddr.trim();
+		
+		// email addresses have to follow certain rules. The following are slightly more strict than what is actually
+		// considered acceptable. However, these are the most commonly followed.
+		if ( emailAddr.indexOf("@") === -1 ) {
+			return "Not an email address because it does not contain an ampersand";
+		};
+		
+		if ( emailAddr.indexOf("@") !== emailAddr.lastIndexOf("@") ) {
+			return "Not an email address because there is more than one ampersand";
+		};
+		
+		if ( emailAddr.indexOf("..") !== -1 ) {
+			return "Not an email address because of sequential dots";
+		};
+		
+		if ( emailAddr.substring(0, 1) === "." || emailAddr.substring(emailAddr.length - 1, emailAddr.length) === ".") {
+			return "Not an email address because of an initial or a trailing dot";
+		};
+		
+		var localPart = emailAddr.substring(0, emailAddr.indexOf("@")),
+			domainPart = emailAddr.substring(emailAddr.indexOf("@") + 1);
+			
+		// return "localPart: " + localPart + " and domainPart: " + domainPart;
+		
+		
+		var localASCII = [33,35,36,37,38,39,42,43,45,46,47,48,49,50,51,52,53,54,55,56,57,61,63,65,66,67,68,69,70,
+		71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,94,95,96,97,98,99,100,101,102,103,104,105,106,107,
+		108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126];
+		
+		var domainASCII = [45,46,47,48,49,50,51,52,53,54,55,56,57,61,63,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,
+		80,81,82,83,84,85,86,87,88,89,90,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,
+		114,115,116,117,118,119,120,121,122,123,124,125,126];
+		
+		for ( var i = 0, j = localPart.length; i < j; i++ ) {
+			for (ii = 0, jj = localASCII.length, doesExist = false; ii < jj; ii++ ) {
+				if ( localPart.charCodeAt(i) === localASCII[ii] ) {
+					doesExist = true;
+					continue;
+				} else {
+					if ( ii === (jj - 1) && doesExist === false) { return localPart[i] + 
+						" cannot be used within the local portion of an email address."};
+				};
+			};
+		};
+		
+		for ( var i = 0, j = domainPart.length; i < j; i++ ) {
+			for (ii = 0, jj = domainASCII.length, doesExist = false; ii < jj; ii++ ) {
+				if ( domainPart.charCodeAt(i) === domainASCII[ii] ) {
+					doesExist = true;
+					continue;
+				} else {
+					if ( ii === (jj - 1) && doesExist === false) { return domainPart[i] + 
+						" cannot be used within the domain portion of an email address."};
+				};
+			};
+		};
 	};
-};
+	
+	return {
+		"phoneNumber":phoneNumber,
+		"emailAddress":emailAddress
+	};
+	
+	
+	
+}; // Close out numberThings
 
-var evaluatePhoneInput = numberThings();
+var evaluateEmailInput = new numberThings();
+
+console.log(evaluateEmailInput.emailAddress("brent.marohnic@aonhewitt.com()))))))))"));
+
+/*
+var evaluatePhoneInput = new numberThings();
 
 evaluatePhoneInput.phoneNumber("1-407-614-5678");
 evaluatePhoneInput.phoneNumber("1.4b7-614-5678");
 evaluatePhoneInput.phoneNumber("1.407.614-5678");
 evaluatePhoneInput.phoneNumber("1.407-614.5678");
+*/
+
+
 
 
