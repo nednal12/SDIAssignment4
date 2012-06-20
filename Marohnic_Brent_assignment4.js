@@ -1,6 +1,6 @@
 // My code library
 
-var numberThings = function () {
+var stringThings = function () {
 	
 	var isItAPhoneNumber = function (phoneNum2) {
 		if ( (phoneNum2.charAt(3) === '-' && phoneNum2.charAt(7) === '-') ||
@@ -192,24 +192,50 @@ var numberThings = function () {
 	
 	
 	
-}; // Close out numberThings
+}; // Close out stringThings
 
-var useReplaceSeparator = new numberThings();
+
+var numberThings = function () {
+	
+	// ------------------------------------------------------------------------------------------------------------------
+	// Begin Format Number Precision Section
+	// 1. Use the toFixed method to format the number to the number of decimals received in somePrecision.
+	// 2. Close out the titleCase function.
+	// ------------------------------------------------------------------------------------------------------------------
+	var formatIt = function (someDecimal, somePrecision) {
+		var formattedString = someDecimal.toFixed(somePrecision);	// 1
+		return formattedString;
+	};																// 2
+	
+	return {
+		"formatIt":formatIt
+	};
+	
+};
+
+var useFormatIt = new numberThings();
+
+console.log(useFormatIt.formatIt(7.10, 2));
+console.log(useFormatIt.formatIt(7.10729657, 12));
+console.log(useFormatIt.formatIt(7, 2));
+
+/*
+var useReplaceSeparator = new stringThings();
 
 console.log(useReplaceSeparator.replaceSeparator(",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,", ",", "*"));
 
-/*
-var useTitleCase = new numberThings();
+
+var useTitleCase = new stringThings();
 
 console.log(useTitleCase.titleCase("i rEALLY eNJOYED dOING tHIS eXERCISE."));
 
 
-var evaluateEmailInput = new numberThings();
+var evaluateEmailInput = new stringThings();
 
 console.log(evaluateEmailInput.emailAddress("brent.marohnic@aonhewitt.com("));
 
 
-var evaluatePhoneInput = new numberThings();
+var evaluatePhoneInput = new stringThings();
 
 evaluatePhoneInput.phoneNumber("1-407-614-5678");
 evaluatePhoneInput.phoneNumber("1.4b7-614-5678");
