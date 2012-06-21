@@ -1,5 +1,41 @@
 // My code library
 
+// Define the object array needed for the final function
+
+var carObjectArray = [
+		{
+			"vin":"123ABC",
+			"make":"Honda",
+			"model":"Accord",
+			"year":2009
+		},
+		{
+			"vin":"456DEF",
+			"make":"Hyundai",
+			"model":"Sonata",
+			"year":2012
+		},
+		{
+			"vin":"789GHI",
+			"make":"Toyota",
+			"model":"Camry",
+			"year":2010
+		},
+		{
+			"vin":"321CBA",
+			"make":"Nissan",
+			"model":"Altima",
+			"year":2011
+		},
+		{
+			"vin":"654FED",
+			"make":"Buick",
+			"model":"Regal",
+			"year":2013
+		}
+];
+
+
 var stringThings = function () {
 	
 	var isItAPhoneNumber = function (phoneNum2) {
@@ -322,13 +358,15 @@ var numberThings = function () {
 	// Begin String to Numeric Conversion Section
 	// 1. Use the quick and easy method to perform the conversion. Simply stick a plus sign in front of the
 	//	  string and let JS take care of the rest.
-	// 2. Pass the resulting value into a negated isNaN to show that this works. Return the boolean value.
+	// 2. Pass the resulting value into a negated isNaN to show that this works. Return the converted value.
 	// 3. Close out the stringToNumeric function.
 	// ------------------------------------------------------------------------------------------------------------------
 	var stringToNumeric = function (someString) {
 		var someNumeric = +someString;		// 1
 		
-		return !isNaN(someNumeric);			// 2
+		if ( !isNaN(someNumeric) ) {		// 2
+			return someNumeric;
+		};
 	};										// 3
 	
 	return {
@@ -413,17 +451,55 @@ var arrayThings = function () {
 		};
 	};																// 4
 	
+	// ------------------------------------------------------------------------------------------------------------------
+	// Begin Object Array Sort Section
+	// 1. Declare a new array that will hold the existing carObjectsArray structure.
+	// 2. Place all of the objects into an array that can be manipulated within this function.
+	// 3. Run the array thru a custom sort routine that works correctly on characters as well as numerics.
+	// 4. Close out the sortObjects function.
+	// ------------------------------------------------------------------------------------------------------------------
+	var sortObjects = function (someArray, someKey) {
+		var holdArray = [];											// 1
+		
+		for ( var i = 0, j = someArray.length; i < j; i++ ) {		// 2
+			holdArray.push(someArray[i]);
+		};
+		
+		for ( var i = 0, j = holdArray.length - 1; i < j; i++ ) {	// 3
+			for ( var ii = 0, jj = j, tempObj = {}; ii < jj; ii++ ) {
+				if ( holdArray[ii][someKey] > holdArray[ii + 1][someKey] ) {
+					tempObj = holdArray[ii];
+					holdArray[ii] = holdArray[ii + 1];
+					holdArray[ii + 1] = tempObj;
+				};
+			};
+		};
+		
+		
+		return holdArray;
+	};																// 4
+	
 	
 	return {
 		"smallestValue":smallestValue,
-		"addEmUp":addEmUp
+		"addEmUp":addEmUp,
+		"sortObjects":sortObjects
 	};
 };
 
+var useSortObjects = new arrayThings();
+
+console.log(useSortObjects.sortObjects(carObjectArray, "year"));
+console.log(useSortObjects.sortObjects(carObjectArray, "make"));
+console.log(useSortObjects.sortObjects(carObjectArray, "model"));
+console.log(useSortObjects.sortObjects(carObjectArray, "vin"));
+
+/*
 var useAddEmUp = new arrayThings();
 
 console.log(useAddEmUp.addEmUp([true,8, 90, 12.75,"*andAnother",13.25,"myTrap",10.50,"anotherTrap",14.00,null]));
 console.log(useAddEmUp.addEmUp([true,"*andAnother",false,"myTrap","anotherTrap",{},null,[8,4]]));
+*/
 
 /*
 var useSmallestValue = new arrayThings();
@@ -434,7 +510,8 @@ console.log(useSmallestValue.smallestValue([true,8, 90, 12.75,"*andAnother",13.2
 /*
 var useStringToNumeric = new numberThings();
 
-console.log("Has it been converted to a number? " + useStringToNumeric.stringToNumeric("12.75"));
+console.log(useStringToNumeric.stringToNumeric("12.75"));
+console.log(useStringToNumeric.stringToNumeric(true));
 */
 
 /*
