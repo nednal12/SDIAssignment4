@@ -318,15 +318,33 @@ var numberThings = function () {
 	};																// 7
 	
 	
+	// ------------------------------------------------------------------------------------------------------------------
+	// Begin String to Numeric Conversion Section
+	// 1. Use the quick and easy method to perform the conversion. Simply stick a plus sign in front of the string and
+	//	  let JS take care of the rest.
+	// 2. Pass the resulting value into a negated isNaN to show that this works. Return the boolean value.
+	// 3. Close out the stringToNumeric function.
+	// ------------------------------------------------------------------------------------------------------------------
+	var stringToNumeric = function (someString) {
+		var someNumeric = +someString;		// 1
+		
+		return !isNaN(someNumeric);			// 2
+	};										// 3
+	
 	return {
 		"formatIt":formatIt,
 		"fuzzyMatch":fuzzyMatch,
-		"dateDuration":dateDuration
+		"dateDuration":dateDuration,
+		"stringToNumeric":stringToNumeric
 	};
 	
 }; // Close out numberThings
 
+var useStringToNumeric = new numberThings();
+// enter values as "2011-10-10T14:48:00","2011-10-10T14:48:00"
+console.log("Has it been converted to a number? " + useStringToNumeric.stringToNumeric("12.75"));
 
+/*
 var useDateDuration = new numberThings();
 // enter values as "2011-10-10T14:48:00","2011-10-10T14:48:00"
 console.log(useDateDuration.dateDuration("2012-06-21T14:48:00","2012-06-20T14:48:00"));
@@ -350,35 +368,41 @@ console.log(useDateDuration.dateDuration("2011-06-21T14:48:01","2012-06-21T04:12
 console.log(useDateDuration.dateDuration("2011-06-21T03:48:35","2012-06-21T04:12:36"));
 
 console.log(useDateDuration.dateDuration("2011-06-21T04:12:35","2012-06-21T05:12:36"));
-	
+*/
+
 /*
 var useFuzzyMatch = new numberThings();
 
 console.log("Does your second number match within the specified tolerance? " + useFuzzyMatch.fuzzyMatch(5, 7.6, 0.50));
+*/
 
-
+/*
 var useFormatIt = new numberThings();
 
 console.log(useFormatIt.formatIt(7.10, 2));
 console.log(useFormatIt.formatIt(7.10729657, 12));
 console.log(useFormatIt.formatIt(7, 2));
+*/
 
-
+/*
 var useReplaceSeparator = new stringThings();
 
 console.log(useReplaceSeparator.replaceSeparator(",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,", ",", "*"));
+*/
 
-
+/*
 var useTitleCase = new stringThings();
 
 console.log(useTitleCase.titleCase("i rEALLY eNJOYED dOING tHIS eXERCISE."));
+*/
 
-
+/*
 var evaluateEmailInput = new stringThings();
 
 console.log(evaluateEmailInput.emailAddress("brent.marohnic@aonhewitt.com("));
+*/
 
-
+/*
 var evaluatePhoneInput = new stringThings();
 
 evaluatePhoneInput.phoneNumber("1-407-614-5678");
