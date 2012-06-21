@@ -379,14 +379,57 @@ var arrayThings = function () {
 		};
 	};															// 6
 	
+	// ------------------------------------------------------------------------------------------------------------------
+	// Begin Add Up the Numerics in an Array Section
+	// 1. Declare a new array that will hold all of the legitimate values from the array that is passed in.
+	//	  Also declare the variable that will be used to sum the values within the array.
+	// 2. Iterate thru the array in order to identify only the good numeric values.
+	// 	  Remove strings, nulls, booleans.
+	// 3. Verify that the array actually contains at least one number. If so, begin to add.
+	//	  If not, inform the user that there were no actual numbers in the array.
+	// 4. Close out the addEmUp function.
+	// ------------------------------------------------------------------------------------------------------------------
+	var addEmUp = function (someArray) {
+		var newArray = [],											// 1
+			summedArrayValue = 0
+		;
+		
+		for ( var i = 0, j = someArray.length; i < j; i++ ) {		// 2
+			if ( !isNaN(someArray[i]) && someArray[i] !== null && 
+				someArray[i] !== true && someArray[i] !== false) {
+				newArray.push(someArray[i]);
+			};
+		};
+		
+		if ( newArray.length !== 0 ) {								// 3
+			for ( var i = 0, j = newArray.length; i < j; i++ ) {
+				summedArrayValue += newArray[i];
+				if ( i === j - 1 ) {
+					return summedArrayValue;
+				};
+			};
+		} else {
+			return "There were no numeric values in the array.";
+		};
+	};																// 4
+	
+	
 	return {
-		"smallestValue":smallestValue
+		"smallestValue":smallestValue,
+		"addEmUp":addEmUp
 	};
 };
 
+var useAddEmUp = new arrayThings();
+
+console.log(useAddEmUp.addEmUp([true,8, 90, 12.75,"*andAnother",13.25,"myTrap",10.50,"anotherTrap",14.00,null]));
+console.log(useAddEmUp.addEmUp([true,"*andAnother",false,"myTrap","anotherTrap",{},null,[8,4]]));
+
+/*
 var useSmallestValue = new arrayThings();
 
 console.log(useSmallestValue.smallestValue([true,8, 90, 12.75,"*andAnother",13.25,"myTrap",10.50,"anotherTrap",14.00,null], -1));
+*/
 
 /*
 var useStringToNumeric = new numberThings();
