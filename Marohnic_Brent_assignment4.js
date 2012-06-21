@@ -64,7 +64,6 @@ var stringThings = function () {
 		// This prevents inputs like boolean values, nulls, spaces, etc ... from being run thru the remaining code.
 		if ( !isNaN(emailAddr) ) {
 			return emailAddr + " is not a valid email address.";
-			return;
 		};
 		// Remove leading and trailing blanks with the 'trim' string object.
 		emailAddr = emailAddr.trim();
@@ -91,7 +90,6 @@ var stringThings = function () {
 			domainPart = emailAddr.substring(emailAddr.indexOf("@") + 1);
 			
 		// return "localPart: " + localPart + " and domainPart: " + domainPart;
-		
 		
 		var localASCII = [33,35,36,37,38,39,42,43,45,46,47,48,49,50,51,52,53,54,55,56,57,61,63,65,66,67,68,69,70,
 		71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,94,95,96,97,98,99,100,101,102,103,104,105,106,107,
@@ -211,31 +209,154 @@ var numberThings = function () {
 	// ------------------------------------------------------------------------------------------------------------------
 	// Begin Fuzzy Match Section
 	// 1. Calculate the range in which the second argument can fall.
-	// 2. Close out the fuzzyMatch function.
+	// 2. Use short-hand if statement to set returnBool to true or false.
+	// 3. Close out the fuzzyMatch function.
 	// ------------------------------------------------------------------------------------------------------------------
 	var fuzzyMatch = function (someNumber, someOtherNumber, somePercentage) {
 		var highEnd = someNumber * (1 + somePercentage),			// 1
 			lowEnd = someNumber - (someNumber * somePercentage)
 			returnBool = false;
 		;
-		if ( someOtherNumber >= lowEnd && someOtherNumber <= highEnd ? returnBool = true : returnBool = false );
+		if ( someOtherNumber >= lowEnd && someOtherNumber <= highEnd ? returnBool = true : returnBool = false );	//2
 		return returnBool;
-	};																// 2
+	};																// 3
+	
+	// ------------------------------------------------------------------------------------------------------------------
+	// Begin Duration Between Dates/Times Section
+	// 1. Declare and initialize a ton of variables that will be used in order for the console logs to display the
+	//	  sentences correctly regardless of the plurality required for each segment (ie: days, hours, minutes, seconds)
+	// 2. Use the Math.max and Math.min functions here to avoid deriving any negative values.
+	// 3. Start of the Days determination piece which is also responsible for constructing the necessary sentence fragment.
+	// 	  Use Math.floor here so that only whole portions are assigned to the value and any remaining amounts flow thru
+	//	  to the remaining divisions.
+	// 4. Start of the Hours determination piece which is also responsible for constructing the necessary sentence fragment.
+	// 	  Use Math.floor here so that only whole portions are assigned to the value and any remaining amounts flow thru
+	//	  to the remaining divisions.
+	// 5. Start of the Minutes determination piece which is also responsible for constructing the necessary sentence fragment.
+	// 	  Use Math.floor here so that only whole portions are assigned to the value and any remaining amounts flow thru
+	//	  to the remaining divisions.
+	// 6. Start of the Seconds determination piece which is also responsible for constructing the necessary sentence fragment.
+	// 7. Close out the fuzzyMatch function.
+	// ------------------------------------------------------------------------------------------------------------------
+	var dateDuration = function (firstDateTime, secondDateTime) {
+		var firstMillis = Date.parse(firstDateTime),				// 1
+			secondMillis = Date.parse(secondDateTime),
+			millisInADay = 86400000,
+			millisInAnHour = 3600000,
+			millisInAMinute = 60000,
+			millisInASecond = 1000,
+			theDuration = 0,
+			theDays = 0,
+			theHours = 0,
+			theMinutes = 0,
+			theSeconds = 0,
+			daysIsAre = " are ",
+			hoursIsAre = " are ",
+			minutesIsAre = " are ",
+			secondsIsAre = " are ",
+			daysIsAre2 = " days, ",
+			hoursIsAre2 = " hours, ",
+			minutesIsAre2 = " minutes, ",
+			secondsIsAre2 = " seconds, ",
+			daysString = "",
+			hoursString = "",
+			minutesString = "",
+			secondsString = ""
+		;
+		
+		theDuration = Math.max( firstMillis, secondMillis ) - Math.min( firstMillis, secondMillis );	// 2
+		
+		if ( theDuration >= millisInADay ) {															// 3
+			theDays = Math.floor(theDuration / millisInADay);
+			theDuration = theDuration - (theDays * millisInADay);
+			if ( theDays === 1 ? daysIsAre = " is " : daysIsAre = " are " );
+			if ( theDays === 1 ? daysIsAre2 = " day" : daysIsAre2 = " days" );
+			if ( theDays === 0 ? daysString = "" : daysString = daysIsAre + theDays + daysIsAre2 );
+		};
+		if ( theDuration >= millisInAnHour ) {															// 4
+			theHours = Math.floor(theDuration / millisInAnHour);
+			theDuration = theDuration - (theHours * millisInAnHour);
+			if ( theDays === 0 ) {
+				mySeparator = "";
+				if ( theHours === 1 ? hoursIsAre = " is " : hoursIsAre = " are " );
+			} else {
+				mySeparator = ", ";
+				hoursIsAre = "";
+			};
+			if ( theHours === 1 ? hoursIsAre2 = " hour" : hoursIsAre2 = " hours" );
+			if ( theHours === 0 ? hoursString = "" : hoursString = mySeparator + hoursIsAre + theHours + hoursIsAre2 );
+		};
+		if ( theDuration >= millisInAMinute ) {															// 5
+			theMinutes = Math.floor(theDuration / millisInAMinute);
+			theDuration = theDuration - (theMinutes * millisInAMinute);
+			if ( theDays === 0 && theHours === 0 ) {
+				mySeparator = "";
+				if ( theMinutes === 1 ? minutesIsAre = " is " : minutesIsAre = " are " );
+			} else {
+				mySeparator = ", ";
+				minutesIsAre = "";	
+			};
+			if ( theMinutes === 1 ? minutesIsAre2 = " minute" : minutesIsAre2 = " minutes" );
+			if ( theMinutes === 0 ? minutesString = "" : minutesString = mySeparator + minutesIsAre + theMinutes + minutesIsAre2 );
+		};
+		if ( theDuration >= millisInASecond ) {															// 6
+			theSeconds = Math.floor(theDuration / millisInASecond);
+			theDuration = theDuration - (theSeconds * millisInASecond);
+			if ( theDays === 0 && theHours === 0 && theMinutes === 0 ) {
+				mySeparator = "";
+				if ( theSeconds === 1 ? secondsIsAre = " is " : secondsIsAre = " are " );
+			} else {
+				mySeparator = ", ";
+				secondsIsAre = ", and ";
+			};
+			if ( theSeconds === 1 ? secondsIsAre2 = " second" : secondsIsAre2 = " seconds" );
+			if ( theSeconds === 0 ? secondsString = "" : secondsString = secondsIsAre + theSeconds + secondsIsAre2 );
+		};
+		
+		return "There" + daysString + hoursString + minutesString + secondsString + " between " + firstDateTime + 
+			" and " + secondDateTime + ".";
+	};																// 7
 	
 	
 	return {
 		"formatIt":formatIt,
-		"fuzzyMatch":fuzzyMatch
+		"fuzzyMatch":fuzzyMatch,
+		"dateDuration":dateDuration
 	};
 	
 }; // Close out numberThings
 
 
+var useDateDuration = new numberThings();
+// enter values as "2011-10-10T14:48:00","2011-10-10T14:48:00"
+console.log(useDateDuration.dateDuration("2012-06-21T14:48:00","2012-06-20T14:48:00"));
+	
+console.log(useDateDuration.dateDuration("2012-06-21T13:48:00","2012-06-21T14:48:00"));
+	
+console.log(useDateDuration.dateDuration("2012-06-21T14:49:00","2012-06-21T14:48:00"));
+	
+console.log(useDateDuration.dateDuration("2012-06-21T14:48:01","2012-06-21T14:48:00"));
+
+console.log(useDateDuration.dateDuration("2012-06-22T14:48:00","2012-06-20T14:48:00"));
+	
+console.log(useDateDuration.dateDuration("2012-06-21T12:48:00","2012-06-21T14:48:00"));
+	
+console.log(useDateDuration.dateDuration("2012-06-21T14:50:00","2012-06-21T14:48:00"));
+	
+console.log(useDateDuration.dateDuration("2012-06-21T14:48:02","2012-06-21T14:48:00"));
+
+console.log(useDateDuration.dateDuration("2011-06-21T14:48:01","2012-06-21T04:12:36"));
+
+console.log(useDateDuration.dateDuration("2011-06-21T03:48:35","2012-06-21T04:12:36"));
+
+console.log(useDateDuration.dateDuration("2011-06-21T04:12:35","2012-06-21T05:12:36"));
+	
+/*
 var useFuzzyMatch = new numberThings();
 
-console.log("Does your second number match within the specified tolerance? " + useFuzzyMatch.fuzzyMatch(5, 5.5, 0.10));
+console.log("Does your second number match within the specified tolerance? " + useFuzzyMatch.fuzzyMatch(5, 7.6, 0.50));
 
-/*
+
 var useFormatIt = new numberThings();
 
 console.log(useFormatIt.formatIt(7.10, 2));
