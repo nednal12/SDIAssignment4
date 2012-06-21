@@ -320,8 +320,8 @@ var numberThings = function () {
 	
 	// ------------------------------------------------------------------------------------------------------------------
 	// Begin String to Numeric Conversion Section
-	// 1. Use the quick and easy method to perform the conversion. Simply stick a plus sign in front of the string and
-	//	  let JS take care of the rest.
+	// 1. Use the quick and easy method to perform the conversion. Simply stick a plus sign in front of the
+	//	  string and let JS take care of the rest.
 	// 2. Pass the resulting value into a negated isNaN to show that this works. Return the boolean value.
 	// 3. Close out the stringToNumeric function.
 	// ------------------------------------------------------------------------------------------------------------------
@@ -340,9 +340,59 @@ var numberThings = function () {
 	
 }; // Close out numberThings
 
+
+var arrayThings = function () {
+	
+	// ------------------------------------------------------------------------------------------------------------------
+	// Begin Smallest Value in Array Greater than Compare Value Section
+	// 1. Declare a new array that will hold all of the legitimate values from the array that is passed in.
+	// 2. Iterate thru the array in order to identify only the good numeric values.
+	// 	  Remove strings, nulls, booleans.
+	// 3. Use the compare function as the parameter to the sort method so that numbers get sorted correctly.
+	// 4. Iterate thru the new array comparing each value to the compare value. 
+	//	  Return the first occurrence of any such value.
+	// 5. If no value greater to the compare value is found, return a string indicating the same.
+	// 6. Close out the smallestValue function.
+	// ------------------------------------------------------------------------------------------------------------------
+	var smallestValue = function (someArray, compareValue) {
+		var newArray = [];										// 1
+		
+		for ( var i = 0, j = someArray.length; i < j; i++ ) {	// 2
+			if ( !isNaN(someArray[i]) && someArray[i] !== null && someArray[i] !== true &&
+				someArray[i] !== false) {
+				newArray.push(someArray[i]);
+			};
+		};
+		
+		newArray.sort(function (a,b) {							// 3
+			return a - b;
+		});
+		
+		for ( var i = 0, j = newArray.length; i < j; i++ ) {	// 4
+			if ( newArray[i] > compareValue ) {
+				return newArray[i];
+			} else {
+				if ( i === j - 1 ) {							// 5
+					return "There were no values in the array greater than the compare value.";
+				};
+			};
+		};
+	};															// 6
+	
+	return {
+		"smallestValue":smallestValue
+	};
+};
+
+var useSmallestValue = new arrayThings();
+
+console.log(useSmallestValue.smallestValue([true,8, 90, 12.75,"*andAnother",13.25,"myTrap",10.50,"anotherTrap",14.00,null], -1));
+
+/*
 var useStringToNumeric = new numberThings();
-// enter values as "2011-10-10T14:48:00","2011-10-10T14:48:00"
+
 console.log("Has it been converted to a number? " + useStringToNumeric.stringToNumeric("12.75"));
+*/
 
 /*
 var useDateDuration = new numberThings();
