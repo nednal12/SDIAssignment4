@@ -198,7 +198,7 @@ var stringThings = function () {
 var numberThings = function () {
 	
 	// ------------------------------------------------------------------------------------------------------------------
-	// Begin Format Number Precision Section
+	// Begin Format Number to Specified Precision Section
 	// 1. Use the toFixed method to format the number to the number of decimals received in somePrecision.
 	// 2. Close out the titleCase function.
 	// ------------------------------------------------------------------------------------------------------------------
@@ -207,19 +207,42 @@ var numberThings = function () {
 		return formattedString;
 	};																// 2
 	
+	
+	// ------------------------------------------------------------------------------------------------------------------
+	// Begin Fuzzy Match Section
+	// 1. Calculate the range in which the second argument can fall.
+	// 2. Close out the fuzzyMatch function.
+	// ------------------------------------------------------------------------------------------------------------------
+	var fuzzyMatch = function (someNumber, someOtherNumber, somePercentage) {
+		var highEnd = someNumber * (1 + somePercentage),			// 1
+			lowEnd = someNumber - (someNumber * somePercentage)
+			returnBool = false;
+		;
+		if ( someOtherNumber >= lowEnd && someOtherNumber <= highEnd ? returnBool = true : returnBool = false );
+		return returnBool;
+	};																// 2
+	
+	
 	return {
-		"formatIt":formatIt
+		"formatIt":formatIt,
+		"fuzzyMatch":fuzzyMatch
 	};
 	
-};
+}; // Close out numberThings
 
+
+var useFuzzyMatch = new numberThings();
+
+console.log("Does your second number match within the specified tolerance? " + useFuzzyMatch.fuzzyMatch(5, 5.5, 0.10));
+
+/*
 var useFormatIt = new numberThings();
 
 console.log(useFormatIt.formatIt(7.10, 2));
 console.log(useFormatIt.formatIt(7.10729657, 12));
 console.log(useFormatIt.formatIt(7, 2));
 
-/*
+
 var useReplaceSeparator = new stringThings();
 
 console.log(useReplaceSeparator.replaceSeparator(",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,", ",", "*"));
