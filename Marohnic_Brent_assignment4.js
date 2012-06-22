@@ -1,43 +1,12 @@
 // My code library
 
-// Define the object array needed for the final function
 
-var carObjectArray = [
-		{
-			"vin":"123ABC",
-			"make":"Honda",
-			"model":"Accord",
-			"year":2009
-		},
-		{
-			"vin":"456DEF",
-			"make":"Hyundai",
-			"model":"Sonata",
-			"year":2012
-		},
-		{
-			"vin":"789GHI",
-			"make":"Toyota",
-			"model":"Camry",
-			"year":2010
-		},
-		{
-			"vin":"321CBA",
-			"make":"Nissan",
-			"model":"Altima",
-			"year":2011
-		},
-		{
-			"vin":"654FED",
-			"make":"Buick",
-			"model":"Regal",
-			"year":2013
-		}
-];
 
 
 var stringThings = function () {
-	
+	// ------------------------------------------------------------------------------------------------------------------
+	// Begin Phone Number Validation Section
+	// ------------------------------------------------------------------------------------------------------------------
 	var isItAPhoneNumber = function (phoneNum2) {
 		if ( (phoneNum2.charAt(3) === '-' && phoneNum2.charAt(7) === '-') ||
 			(phoneNum2.charAt(3) === '.' && phoneNum2.charAt(7) === '.') ) {
@@ -48,18 +17,17 @@ var stringThings = function () {
 					if ( phoneNum2.charCodeAt(i) >= 48 && phoneNum2.charCodeAt(i) <= 57 ) {
 						continue;
 					} else {
-						console.log("The character identified in position " + ( i + 1 ) + " is not numeric.");
-						break;
+						return ("The character identified in position " + ( i + 1 ) + " is not numeric.");
 					};
 				};
 			};
 		} 	else {
 			// User did not use the same separators. Ding them for doing that.
-			console.log(phoneNum2 + " is not a valid telephone number.");
+			return (phoneNum2 + " contains two differnt types of separators.");
 			};
 			
 		if ( i === 12 ) {
-			console.log("Congratulations, " + phoneNum2 + " is a valid telephone number.");
+			return ("Congratulations, " + phoneNum2 + " is a valid telephone number.");
 			
 		};
 	};
@@ -68,8 +36,8 @@ var stringThings = function () {
 		// Begin by checking if the input is a number. If it is, use return to prevent any further execuction.
 		// This prevents inputs like boolean values, nulls, spaces, etc ... from being run thru the remaining code.
 		if ( !isNaN(phoneNum) ) {
-			console.log(phoneNum + " is not a valid telephone number.");
-			return;
+			//console.log(phoneNum + " is not a valid telephone number.");
+			return phoneNum + " is not a valid telephone number.";
 		};
 		// Remove leading and trailing blanks with the 'trim' string object.
 		phoneNum = phoneNum.trim();
@@ -79,12 +47,12 @@ var stringThings = function () {
 		// that the length is equal to 14.
 		if ( firstDigit == 1 && phoneNum.length === 14 ) {
 		// If it is, remove the first and second chacters (ie: 1- ) before sending it on.
-			isItAPhoneNumber(phoneNum.substring(2));
+			return isItAPhoneNumber(phoneNum.substring(2));
 		} else if ( firstDigit != 1 && phoneNum.length === 12 ) {
 		// If the first character does not equal 1 and the length is equal to 12, send it on.
-			isItAPhoneNumber(phoneNum);
+			return isItAPhoneNumber(phoneNum);
 		} else {
-			console.log(phoneNum + " is not a valid telephone number.");
+			return phoneNum + " contains either too many or too few characters to be valid";
 		};	// Close out the if block.
 			
 	};	// Close out phoneNumber
@@ -158,6 +126,7 @@ var stringThings = function () {
 				};
 			};
 		};
+		return emailAddr + " is a valid email address.";
 	
 	}; // Close out emailAddress
 	
@@ -166,11 +135,10 @@ var stringThings = function () {
 	// 1. Remove leading and trailing blanks.
 	// 2. Set everything to lower case in case someone attempts to get tricky with how they input the argument.
 	// 3. Turn the string into an array of individual letters, spaces, punctuation, etc..
-	// 4. The first time thru the loop, set the first letter to upper case because it will always need to be upper case.
-	// 	  Also, set the incoming arguemnt to an empty string so we can use it again to reconstruct the title case string.
-	// 5. All subsequent interations just need to check to see if the previous array value was a space. If so,
-	//	  capitalize the current letter.
-	// 6. We are still in the loop here, so let's go ahead and begin to reconstruct our title case sentence using the 
+	// 4. Set the incoming arguemnt to an empty string so we can use it again to reconstruct the title case string.
+	// 5. Capitalize the first character.
+	// 6. Loop thru the array. Check to see if the previous array value was a space. If so, capitalize the current letter.
+	// 7. We are still in the loop here, so let's go ahead and begin to reconstruct our title case sentence using the 
 	//	  concat method.
 	// 7. Close out the titleCase function.
 	// ------------------------------------------------------------------------------------------------------------------
@@ -178,14 +146,13 @@ var stringThings = function () {
 		someString = someString.trim();									// 1
 		someString = someString.toLowerCase();							// 2
 		var someStringArray = someString.split("");						// 3
+		someString = "";												// 4
+		someStringArray[0] = someStringArray[0].toUpperCase();			// 5
 		for ( var i = 0, j = someStringArray.length; i < j; i++ ) {
-			if ( i === 0  ) {											// 4
+			if ( someStringArray[ i - 1 ] === " "  ) {					// 6
 				someStringArray[i] = someStringArray[i].toUpperCase();
-				someString = "";
-			} else if ( someStringArray[ i - 1 ] === " " ) {			// 5
-				someStringArray[i] = someStringArray[i].toUpperCase();
-			};
-			someString = someString.concat(someStringArray[i]);			// 6
+			} 
+			someString = someString.concat(someStringArray[i]);			// 7
 		};
 		return someString;
 		
@@ -301,6 +268,8 @@ var numberThings = function () {
 		;
 		
 		theDuration = Math.max( firstMillis, secondMillis ) - Math.min( firstMillis, secondMillis );	// 2
+		
+		if ( theDuration === 0 ) { return firstDateTime + " and " + secondDateTime + " are the same." };
 		
 		if ( theDuration >= millisInADay ) {															// 3
 			theDays = Math.floor(theDuration / millisInADay);
@@ -486,101 +455,3 @@ var arrayThings = function () {
 		"sortObjects":sortObjects
 	};
 };
-
-var useSortObjects = new arrayThings();
-
-console.log(useSortObjects.sortObjects(carObjectArray, "year"));
-console.log(useSortObjects.sortObjects(carObjectArray, "make"));
-console.log(useSortObjects.sortObjects(carObjectArray, "model"));
-console.log(useSortObjects.sortObjects(carObjectArray, "vin"));
-
-/*
-var useAddEmUp = new arrayThings();
-
-console.log(useAddEmUp.addEmUp([true,8, 90, 12.75,"*andAnother",13.25,"myTrap",10.50,"anotherTrap",14.00,null]));
-console.log(useAddEmUp.addEmUp([true,"*andAnother",false,"myTrap","anotherTrap",{},null,[8,4]]));
-*/
-
-/*
-var useSmallestValue = new arrayThings();
-
-console.log(useSmallestValue.smallestValue([true,8, 90, 12.75,"*andAnother",13.25,"myTrap",10.50,"anotherTrap",14.00,null], -1));
-*/
-
-/*
-var useStringToNumeric = new numberThings();
-
-console.log(useStringToNumeric.stringToNumeric("12.75"));
-console.log(useStringToNumeric.stringToNumeric(true));
-*/
-
-/*
-var useDateDuration = new numberThings();
-// enter values as "2011-10-10T14:48:00","2011-10-10T14:48:00"
-console.log(useDateDuration.dateDuration("2012-06-21T14:48:00","2012-06-20T14:48:00"));
-	
-console.log(useDateDuration.dateDuration("2012-06-21T13:48:00","2012-06-21T14:48:00"));
-	
-console.log(useDateDuration.dateDuration("2012-06-21T14:49:00","2012-06-21T14:48:00"));
-	
-console.log(useDateDuration.dateDuration("2012-06-21T14:48:01","2012-06-21T14:48:00"));
-
-console.log(useDateDuration.dateDuration("2012-06-22T14:48:00","2012-06-20T14:48:00"));
-	
-console.log(useDateDuration.dateDuration("2012-06-21T12:48:00","2012-06-21T14:48:00"));
-	
-console.log(useDateDuration.dateDuration("2012-06-21T14:50:00","2012-06-21T14:48:00"));
-	
-console.log(useDateDuration.dateDuration("2012-06-21T14:48:02","2012-06-21T14:48:00"));
-
-console.log(useDateDuration.dateDuration("2011-06-21T14:48:01","2012-06-21T04:12:36"));
-
-console.log(useDateDuration.dateDuration("2011-06-21T03:48:35","2012-06-21T04:12:36"));
-
-console.log(useDateDuration.dateDuration("2011-06-21T04:12:35","2012-06-21T05:12:36"));
-*/
-
-/*
-var useFuzzyMatch = new numberThings();
-
-console.log("Does your second number match within the specified tolerance? " + useFuzzyMatch.fuzzyMatch(5, 7.6, 0.50));
-*/
-
-/*
-var useFormatIt = new numberThings();
-
-console.log(useFormatIt.formatIt(7.10, 2));
-console.log(useFormatIt.formatIt(7.10729657, 12));
-console.log(useFormatIt.formatIt(7, 2));
-*/
-
-/*
-var useReplaceSeparator = new stringThings();
-
-console.log(useReplaceSeparator.replaceSeparator(",a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,", ",", "*"));
-*/
-
-/*
-var useTitleCase = new stringThings();
-
-console.log(useTitleCase.titleCase("i rEALLY eNJOYED dOING tHIS eXERCISE."));
-*/
-
-/*
-var evaluateEmailInput = new stringThings();
-
-console.log(evaluateEmailInput.emailAddress("brent.marohnic@aonhewitt.com("));
-*/
-
-/*
-var evaluatePhoneInput = new stringThings();
-
-evaluatePhoneInput.phoneNumber("1-407-614-5678");
-evaluatePhoneInput.phoneNumber("1.4b7-614-5678");
-evaluatePhoneInput.phoneNumber("1.407.614-5678");
-evaluatePhoneInput.phoneNumber("1.407-614.5678");
-*/
-
-
-
-
